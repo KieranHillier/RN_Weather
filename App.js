@@ -12,6 +12,7 @@ class App extends Component<Props> {
     weatherCondition: null,
     error: null,
     city: null,
+    hourly: [],
     APIKEY: '5acebba7e04d7642b127e14afe3aecb3'
   }
 
@@ -40,7 +41,6 @@ class App extends Component<Props> {
           temperature: json.main.temp,
           weatherCondition: json.weather[0].main,
           city: json.name,
-          isLoading: false
         })
       });
     fetch (
@@ -49,18 +49,32 @@ class App extends Component<Props> {
       .then(res => res.json())
       .then(json => {
         console.log(json.list[0].dt_txt)
+        console.log(json)
         const hourlyWeather = []
-        json.list.map((x) => {
+        for (let i = 0; i < 8; i++) {
           const hourlyInput = {
-            weather: x.weather[0].main,
-            time: x.dt_txt
+            id: i,
+            weather: Math.round(json.list[i].main.temp),
+            time: json.list[i].dt_txt.slice(11, 13),
+            icon: json.list[i].weather[0].description
           }
           hourlyWeather.push(hourlyInput)
-          console.log(x.weather[0].main)
-          console.log(x.dt_txt)
-        })
+        }
+        // json.list.map((x) => {
+        //   const hourlyInput = {
+        //     weather: x.main.temp,
+        //     time: x.dt_txt
+        //   }
+        //   hourlyWeather.push(hourlyInput)
+        //   // console.log(x.weather[0].main)
+        //   // console.log(x.dt_txt)
+        // })
         //made an array of all the temperatures
         console.log(hourlyWeather)
+        this.setState({
+          hourly: hourlyWeather,
+          isLoading: false
+        })
       });
     
   }
@@ -85,13 +99,13 @@ class App extends Component<Props> {
   }
 
   render() {
-    const { isLoading, temperature, weatherCondition, city } = this.state
+    const { isLoading, temperature, weatherCondition, city, hourly } = this.state
     return (
       <View style={styles.container}>
         {isLoading ? (
           <Loading />
         ) : (
-          <Weather temp={temperature} city={city} condition={weatherCondition} reload={this.reload}/>
+          <Weather temp={temperature} city={city} condition={weatherCondition} reload={this.reload} hourly={hourly}/>
         )}
       </View>
     );

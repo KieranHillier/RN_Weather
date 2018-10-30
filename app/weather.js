@@ -15,18 +15,40 @@ class Weather extends Component {
         super(props)
     }
 
-    // componentDidMount() {
-    //     this.props.onRef(this)
-    // }
+    componentDidMount() {
+        // this.props.onRef(this)
+        console.log(`from weather ${this.props.hourly}`)
+    }
     
     // <Button 
     //     onPress={() => this.props.reload()}
     //     title="Reload"      
     // />
 
+    renderHourly = () => {
+        return this.props.hourly.map((element) => {
+            let timeOfDay = null
+            let time = parseInt(element.time)
+            // alert(time)
+            // (time >= 13) ? timeOfDay = 'pm' : timeOfDay = 'am'
+            if (time >= 13 ) {
+                timeOfDay = 'pm'
+            } else {
+                timeofDay = 'am'
+            }
+            return(
+                <View key={element.id} style={styles.hourlyItem}>
+                    <Text style={styles.hourlyItemText}>{element.time}{timeOfDay}</Text>
+                    <MaterialCommunityIcons size={75} name="weather-sunny" color={'#fff'} />
+                    <Text style={styles.hourlyItemText}>{element.weather}°C</Text>
+                </View> 
+            )
+        })
+    }
+
     render() {
         const { condition } = this.props
-        
+
         return (
             <View style={styles.container}>
                 <View style={styles.locationRow}>            
@@ -40,20 +62,7 @@ class Weather extends Component {
 
                 <View style={styles.hourlyRow}>
                     <ScrollView horizontal={true} style={styles.hourlyScroll}>
-                        <View style={styles.hourlyItem}>
-                            <MaterialCommunityIcons size={75} name="weather-sunny" color={'#fff'} />
-                            <Text style={styles.hourlyItemText}>4pm</Text>
-                        </View>
-                        <MaterialCommunityIcons size={75} name="weather-sunny" color={'#fff'} />
-                        <MaterialCommunityIcons size={75} name="weather-sunny" color={'#fff'} />
-                        <MaterialCommunityIcons size={75} name="weather-sunny" color={'#fff'} />
-                        <MaterialCommunityIcons size={75} name="weather-sunny" color={'#fff'} />
-                        <MaterialCommunityIcons size={75} name="weather-sunny" color={'#fff'} />
-                        <MaterialCommunityIcons size={75} name="weather-sunny" color={'#fff'} />
-                        <MaterialCommunityIcons size={75} name="weather-sunny" color={'#fff'} />
-                        <MaterialCommunityIcons size={75} name="weather-sunny" color={'#fff'} />
-                        <MaterialCommunityIcons size={75} name="weather-sunny" color={'#fff'} />
-                        <MaterialCommunityIcons size={75} name="weather-sunny" color={'#fff'} />
+                        {this.renderHourly()}
 
 
                     </ScrollView>
