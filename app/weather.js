@@ -13,11 +13,13 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 class Weather extends Component {
     constructor(props){
         super(props)
+        this.condition = weatherCondition[this.props.condition]
     }
 
     componentDidMount() {
         // this.props.onRef(this)
         console.log(`from weather ${this.props.hourly}`)
+        console.log(this.condition)
     }
     
     // <Button 
@@ -27,19 +29,22 @@ class Weather extends Component {
 
     renderHourly = () => {
         return this.props.hourly.map((element) => {
-            let timeOfDay = null
-            let time = parseInt(element.time)
+            let timeOfDay = ''
+            let time = element.time
+            // console.log(parseInt(element.time))
             // alert(time)
-            // (time >= 13) ? timeOfDay = 'pm' : timeOfDay = 'am'
-            if (time >= 13 ) {
-                timeOfDay = 'pm'
+            // (time >= 13) ? time += 'pm' : time += 'am';
+            if (time >= 13) {
+                time += 'pm'
+                console.log('pm')
             } else {
-                timeofDay = 'am'
+                time += 'am'
+                console.log('am')
             }
             return(
                 <View key={element.id} style={styles.hourlyItem}>
-                    <Text style={styles.hourlyItemText}>{element.time}{timeOfDay}</Text>
-                    <MaterialCommunityIcons size={75} name="weather-sunny" color={'#fff'} />
+                    <Text style={styles.hourlyItemText}>{time}</Text>
+                    <MaterialCommunityIcons size={50} name={weatherCondition[element.icon].icon} color={'#fff'} />
                     <Text style={styles.hourlyItemText}>{element.weather}°C</Text>
                 </View> 
             )
@@ -50,9 +55,9 @@ class Weather extends Component {
         const { condition } = this.props
 
         return (
-            <View style={styles.container}>
+            <View style={{flex:1, backgroundColor: weatherCondition[condition].color}}>
                 <View style={styles.locationRow}>            
-                    <MaterialCommunityIcons size={75} name="weather-sunny" color={'#fff'} />
+                    <MaterialCommunityIcons size={75} name={weatherCondition[condition].icon} color={'#fff'} />
                     <Text style={styles.cityText}>{this.props.city}</Text>
                 </View>
                
@@ -80,10 +85,7 @@ class Weather extends Component {
 export default Weather;
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,  
-        backgroundColor: '#f7b733',
-    },
+    
     locationRow: {
         flex: 1,
         paddingTop: 25,
@@ -117,7 +119,8 @@ const styles = StyleSheet.create({
     },
     hourlyItem: {
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginRight: 10
     },
     hourlyItemText: {
         color: '#fff',

@@ -56,7 +56,7 @@ class App extends Component<Props> {
             id: i,
             weather: Math.round(json.list[i].main.temp),
             time: json.list[i].dt_txt.slice(11, 13),
-            icon: json.list[i].weather[0].description
+            icon: json.list[i].weather[0].main
           }
           hourlyWeather.push(hourlyInput)
         }
