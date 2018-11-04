@@ -35,17 +35,17 @@ class Weather extends Component {
             // alert(time)
             // (time >= 13) ? time += 'pm' : time += 'am';
             if (time >= 13) {
-                time += 'pm'
+                time += ':00 pm'
                 console.log('pm')
             } else {
-                time += 'am'
+                time += ':00 am'
                 console.log('am')
             }
             return(
                 <View key={element.id} style={styles.hourlyItem}>
                     <Text style={styles.hourlyItemText}>{time}</Text>
-                    <MaterialCommunityIcons size={50} name={weatherCondition[element.icon].icon} color={'#fff'} />
-                    <Text style={styles.hourlyItemText}>{element.weather}°C</Text>
+                    <MaterialCommunityIcons size={64} name={weatherCondition[element.icon].icon} color={'#fff'} />
+                    <Text style={styles.hourlyItemText}>{element.weather}°</Text>
                 </View> 
             )
         })
@@ -56,13 +56,14 @@ class Weather extends Component {
 
         return (
             <View style={{flex:1, backgroundColor: weatherCondition[condition].color}}>
+                <Text style={styles.cityText}>{this.props.city}</Text>
                 <View style={styles.locationRow}>            
-                    <MaterialCommunityIcons size={75} name={weatherCondition[condition].icon} color={'#fff'} />
-                    <Text style={styles.cityText}>{this.props.city}</Text>
+                    <MaterialCommunityIcons size={158} name={weatherCondition[condition].icon} color={'#fff'} />
+                    
                 </View>
                
                 <View style={styles.tempRow}>
-                    <Text style={styles.tempText}>{this.props.temp}°C</Text>
+                    <Text style={styles.tempText}>{this.props.temp}°</Text>
                 </View>
 
                 <View style={styles.hourlyRow}>
@@ -74,7 +75,7 @@ class Weather extends Component {
                 </View>
 
                 <View style={styles.descriptionRow}>
-                    <Text style={styles.descMain}>{condition}</Text>
+                    <Text style={styles.descMain}>{weatherCondition[condition].title}</Text>
                     <Text style={styles.descSub}>{weatherCondition[condition].subtitle}</Text>
                 </View>
                 
@@ -88,14 +89,17 @@ const styles = StyleSheet.create({
     
     locationRow: {
         flex: 1,
-        paddingTop: 25,
+        paddingTop: 65,
         alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'center'
     },
     cityText: {
-        fontSize: 28,
-        color:'#fff'
+        fontSize: 20,
+        color:'#fff',
+        padding: 5,
+        paddingLeft: 10,
+        fontWeight: '200',
     },
     tempRow: {
         alignItems: 'center',
@@ -103,13 +107,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     tempText: {
-        fontSize: 60,
+        fontSize: 64,
+        marginTop: 25,
         color:'#fff'
     },
     hourlyRow: {
-        paddingTop: 80,
-        paddingLeft: 30,
-        paddingRight: 30,
+        paddingTop: 65,
+        paddingLeft: 15,
+        paddingRight: 15,
         alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'center'
@@ -135,15 +140,16 @@ const styles = StyleSheet.create({
         flex: 2,
         alignItems: 'flex-start',
         justifyContent: 'flex-end',
-        paddingLeft: 25,
-        marginBottom: 40
+        paddingLeft: 10,
+        marginBottom: 20
     },
     descMain: {
-        fontSize: 30,
-        color:'#fff' 
+        fontSize: 36,
+        color:'#fff',
+        fontWeight: '900', 
     },
     descSub: {
-        fontSize: 22,
+        fontSize: 24,
         color: '#fff'
     }
 
